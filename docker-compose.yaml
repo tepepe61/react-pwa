@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./reactApp:/myapp
-    command: sh -c "cd react-sample && yarn start"
+      - ./reactApp:/react-todo-pwa
+    command: sh -c "cd react-todo-pwa && yarn start"
     ports:
       - "3000:3000"
     stdin_open: true
