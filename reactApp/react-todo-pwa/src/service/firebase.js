@@ -25,3 +25,13 @@ export const signInWithGoogle = () => {
     });
 };
 
+export const logOut = () => {
+  firebase.auth().signOut()
+    .then(() => {
+      console.log('ログアウトした');
+      document.location.reload();
+    })
+    .catch( (error) => {
+      console.log(error.message);
+    });
+};
