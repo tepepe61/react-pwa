@@ -11,7 +11,7 @@ const Header = () => {
 
   const buttonRender = () => {
     let buttonDom
-    if(dig(currentUser, 'currentUser')){
+    if(dig(currentUser, 'currentUser', 'uid')){
       buttonDom = <button onClick={logOut} >ログアウト</button>
     }else{
       buttonDom = <button onClick={signInWithGoogle} >ログイン</button>
