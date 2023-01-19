@@ -7,7 +7,23 @@ import * as Api from '../service/api'
 const Dashboard = () => {
   const currentUser = useContext(AuthContext);
   const [inputName, setInputName] = useState("");
-  // console.log(inputName);
+  const [todos, setTodos] = useState([]);
+  console.log(todos);
+
+  useEffect(() => {
+  // Todo一覧を取得
+  // 1. useEffectの第二引数が定義されてると、最初のrender時と引数の値が変更された時発火する。
+  fetch();
+  }, [currentUser])
+
+  const fetch = async() => {
+    // 2. currentUserがログインして値があったらApiモジュールのinitGetが発火
+    if( dig(currentUser, 'currentUser', 'uid')){
+      // 3. uidをもとにfirestoreに問い合わせをして、data変数に代入してデータ更新
+      const data = await Api.initGet(currentUser.currentUser.uid)
+      await setTodos(data);
+    }
+  }
 
   const formRender = () => {
     let dom
