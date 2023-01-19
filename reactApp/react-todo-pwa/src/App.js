@@ -1,24 +1,17 @@
 import logo from './logo.svg';
+import { AuthProvider } from './provider/AuthProvider';
 import './App.css';
+import './service/firebase';
+import Header from './components/Header';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+    {/*AuthProvider.jsで'<AuthContext.Provider value={{ currentUser }}>'してるから下の<Header />でreduxみたいにデータに参照できる */}
+      <Header />
+      <Dashboard />
+    </AuthProvider>
   );
 }
 
