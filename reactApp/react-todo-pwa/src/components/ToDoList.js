@@ -29,11 +29,16 @@ const ToDoList = (props) =>{
     props.fetch();
   }
 
+  const checkHandle = async(id) =>{
+    await Api.toggleComplete(id);
+    props.fetch();
+  }
+
   const todoList = props.todos.map((todo) => {
     return (
       <ListItem key={todo.id}>
         <ListItemIcon>
-          <Checkbox name="checkedA" />
+          <Checkbox checked={todo.isComplete} onChange={() => checkHandle(todo.id)} name="checkedA" />
         </ListItemIcon>
         <ListItemText primary={todo.content} />
         <ListItemSecondaryAction>
