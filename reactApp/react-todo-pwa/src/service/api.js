@@ -1,14 +1,14 @@
 import firebase from 'firebase';
-import {db} from './firebase';
+import { db } from './firebase';
 
-export const initGet = async(uid) =>{
+export const initGet = async (uid) => {
   const todo = await db
-  .collection("todo")
-  .orderBy("createdAt", "desc")
-  .where("uid", "==", uid);
+    .collection('todo')
+    .orderBy('createdAt', 'desc')
+    .where('uid', '==', uid);
 
   return todo.get().then((snapShot) => {
-    let todos = [];
+    const todos = [];
     snapShot.forEach((doc) => {
       todos.push({
         id: doc.id,
@@ -19,25 +19,25 @@ export const initGet = async(uid) =>{
 
     return todos;
   });
-}
+};
 
 export const addTodo = (content, uid) => {
-  db.collection("todo").add({
-    content: content,
-    uid: uid,
+  db.collection('todo').add({
+    content,
+    uid,
     isComplete: false,
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  })
-}
+  });
+};
 
 export const todoDelete = (id) => {
-  db.collection('todo').doc(id).delete()
-}
+  db.collection('todo').doc(id).delete();
+};
 
-export const toggleComplete = async(id) => {
+export const toggleComplete = async (id) => {
   const todo = await db.collection('todo').doc(id).get();
   return db.collection('todo').doc(id).update({
-    isComplete: todo.data().isComplete ? false: true,
+    isComplete: !todo.data().isComplete,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-  })
-}
+  });
+};
