@@ -4,12 +4,34 @@ import dig from 'object-dig';
 import {AuthContext} from "../provider/AuthProvider";
 import * as Api from '../service/api';
 import ToDoList from './ToDoList';
+import {TextField} from "@material-ui/core";
+import {Button} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    textAlign: 'center',
+    marginTop: 40
+  },
+  form: {
+    width: "100%",
+    MaxWidth: 360,
+    margin: "auto",
+    marginBottom: 40,
+    display: "flex",
+    alignItems: "baseline",
+    justifyContent: "center",
+  },
+  input: {
+    marginRight: '10px'
+  }
+}));
 
 const Dashboard = () => {
+  const classes = useStyles();
   const currentUser = useContext(AuthContext);
   const [inputName, setInputName] = useState("");
   const [todos, setTodos] = useState([]);
-  console.log(todos);
 
   useEffect(() => {
   // Todo一覧を取得
@@ -30,9 +52,9 @@ const Dashboard = () => {
     let dom
     if(dig(currentUser, 'currentUser', 'uid')){
       dom =
-        <form>
-          <input placeholder="ToDoName" value={inputName} onChange={(event) => setInputName(event.currentTarget.value)} />
-          <button type='button' onClick={() => poost()}>追加</button>
+        <form className={classes.form}>
+          <TextField placeholder="ToDoName" value={inputName} className={classes.input} onChange={(event) => setInputName(event.currentTarget.value)} />
+          <Button disabled={inputName.length > 0 ? false: true} variant='contained' color='primary' size='small' type='button' onClick={() => poost()}>追加</Button>
         </form>
     }else{
       dom = <button onClick={signInWithGoogle}>ログイン</button>
@@ -48,7 +70,7 @@ const Dashboard = () => {
   }
 
   return(
-    <div>
+    <div className={classes.root}>
       {formRender()}
       <ToDoList todos={todos} fetch={fetch} />
     </div>
