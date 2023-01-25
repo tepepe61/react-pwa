@@ -1,25 +1,30 @@
-import React, { useEffect, useState, useContext } from 'react';
-import dig from 'object-dig';
+import React, { useEffect, useState, useContext } from "react";
+import dig from "object-dig";
 import {
-  ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction, IconButton, Checkbox,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
+  Checkbox,
   makeStyles,
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { AuthContext } from '../provider/AuthProvider';
-import { signInWithGoogle } from '../service/firebase';
-import * as Api from '../service/api';
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { AuthContext } from "../provider/AuthProvider";
+import { signInWithGoogle } from "../service/firebase";
+import * as Api from "../service/api";
 
 const useStyle = makeStyles(() => ({
   root: {
     maxWidth: 360,
-    margin: 'auto',
+    margin: "auto",
   },
   ul: {
     paddingLeft: 0,
-    listStyle: 'none',
+    listStyle: "none",
   },
   list: {
-    justifyContent: 'space-btween',
+    justifyContent: "space-btween",
   },
 }));
 
@@ -38,11 +43,19 @@ function ToDoList(props) {
   const todoList = props.todos.map((todo) => (
     <ListItem key={todo.id}>
       <ListItemIcon>
-        <Checkbox checked={todo.isComplete} onChange={() => checkHandle(todo.id)} name="checkedA" />
+        <Checkbox
+          checked={todo.isComplete}
+          onChange={() => checkHandle(todo.id)}
+          name="checkedA"
+        />
       </ListItemIcon>
       <ListItemText primary={todo.content} />
       <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="delete" onClick={() => deleteHandle(todo.id)}>
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          onClick={() => deleteHandle(todo.id)}
+        >
           <DeleteIcon />
         </IconButton>
       </ListItemSecondaryAction>
