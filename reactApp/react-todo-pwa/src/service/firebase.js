@@ -19,21 +19,26 @@ export const db = firebase.firestore();
 db.enablePersistence();
 
 export const signInWithGoogle = () => {
-  firebase.auth().signInWithPopup(googleProvider)
+  firebase
+    .auth()
+    .signInWithPopup(googleProvider)
     .then((result) => {
       console.log(result.user);
-    }).catch((error) => {
+    })
+    .catch((error) => {
       console.log(error.message);
     });
 };
 
 export const logOut = () => {
-  firebase.auth().signOut()
+  firebase
+    .auth()
+    .signOut()
     .then(() => {
-      console.log('ログアウトした');
+      console.log("ログアウトした");
       document.location.reload();
     })
-    .catch( (error) => {
+    .catch((error) => {
       console.log(error.message);
     });
 };

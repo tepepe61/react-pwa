@@ -1,17 +1,15 @@
-import React, {useState, useEffect, useContext} from 'react';
-import { signInWithGoogle } from '../service/firebase';
-import dig from 'object-dig';
-import {AuthContext} from "../provider/AuthProvider";
-import * as Api from '../service/api';
-import ToDoList from './ToDoList';
-import {TextField} from "@material-ui/core";
-import {Button} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core";
+import React, { useState, useEffect, useContext } from "react";
+import dig from "object-dig";
+import { TextField, Button, makeStyles } from "@material-ui/core";
+import { signInWithGoogle } from "../service/firebase";
+import { AuthContext } from "../provider/AuthProvider";
+import * as Api from "../service/api";
+import ToDoList from "./ToDoList";
 
 const useStyles = makeStyles(() => ({
   root: {
-    textAlign: 'center',
-    marginTop: 40
+    textAlign: "center",
+    marginTop: 40,
   },
   form: {
     width: "100%",
@@ -23,58 +21,77 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
   },
   input: {
-    marginRight: '10px'
-  }
+    marginRight: "10px",
+  },
 }));
 
-const Dashboard = () => {
+function Dashboard() {
   const classes = useStyles();
-  const currentUser = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const [inputName, setInputName] = useState("");
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-  // Todo一覧を取得
-  // 1. useEffectの第二引数が定義されてると、最初のrender時と引数の値が変更された時発火する。
-  fetch();
-  }, [currentUser])
+    // Todo一覧を取得
+    // 1. useEffectの第二引数が定義されてると、最初のrender時と引数の値が変更された時発火する。
+    fetch();
+  }, [currentUser]);
 
-  const fetch = async() => {
+  const fetch = async () => {
     // 2. currentUserがログインして値があったらApiモジュールのinitGetが発火
-    if( dig(currentUser, 'currentUser', 'uid')){
+    if (dig(currentUser, "uid")) {
       // 3. uidをもとにfirestoreに問い合わせをして、data変数に代入してデータ更新
-      const data = await Api.initGet(currentUser.currentUser.uid)
+      const data = await Api.initGet(currentUser.uid);
       await setTodos(data);
     }
-  }
+  };
 
   const formRender = () => {
-    let dom
-    if(dig(currentUser, 'currentUser', 'uid')){
-      dom =
+    let dom;
+    if (dig(currentUser, "uid")) {
+      dom = (
         <form className={classes.form}>
-          <TextField placeholder="ToDoName" value={inputName} className={classes.input} onChange={(event) => setInputName(event.currentTarget.value)} />
-          <Button disabled={inputName.length > 0 ? false: true} variant='contained' color='primary' size='small' type='button' onClick={() => poost()}>追加</Button>
+          <TextField
+            placeholder="ToDoName"
+            value={inputName}
+            className={classes.input}
+            onChange={(event) => setInputName(event.currentTarget.value)}
+          />
+          <Button
+            disabled={!(inputName.length > 0)}
+            variant="contained"
+            color="primary"
+            size="small"
+            type="button"
+            onClick={() => poost()}
+          >
+            追加
+          </Button>
         </form>
-    }else{
-      dom = <button onClick={signInWithGoogle}>ログイン</button>
+      );
+    } else {
+      dom = (
+        <button type="button" onClick={signInWithGoogle}>
+          ログイン
+        </button>
+      );
     }
 
-    return dom
-  }
+    return dom;
+  };
 
-  const poost = async() => {
-    await Api.addTodo(inputName, currentUser.currentUser.uid);
+  const poost = async () => {
+    await Api.addTodo(inputName, currentUser.uid);
     await setInputName("");
     fetch();
-  }
+  };
 
-  return(
+  return (
     <div className={classes.root}>
       {formRender()}
       <ToDoList todos={todos} fetch={fetch} />
     </div>
-  )
-};
+  );
+}
 
 export default Dashboard;
