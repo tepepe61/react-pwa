@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { auth } from "../service/firebase";
 
 export const AuthContext = React.createContext();
@@ -12,6 +12,7 @@ export function AuthProvider({ children }) {
 
   return (
     // ここで'AuthContext.Provider'することで{children}(子コンポーネントはreduxみたいにデータに参照できる)
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
     <AuthContext.Provider value={{ currentUser }}>
       {children}
     </AuthContext.Provider>

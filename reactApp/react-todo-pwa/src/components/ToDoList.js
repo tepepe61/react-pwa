@@ -30,17 +30,19 @@ const useStyle = makeStyles(() => ({
 
 function ToDoList(props) {
   const classes = useStyle();
+  const { fetch, todos } = props;
+
   const deleteHandle = async (id) => {
     await Api.todoDelete(id);
-    props.fetch();
+    fetch();
   };
 
   const checkHandle = async (id) => {
     await Api.toggleComplete(id);
-    props.fetch();
+    fetch();
   };
 
-  const todoList = props.todos.map((todo) => (
+  const todoList = todos.map((todo) => (
     <ListItem key={todo.id}>
       <ListItemIcon>
         <Checkbox

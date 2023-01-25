@@ -1,3 +1,6 @@
+/* eslint-disable prefer-regex-literals */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-restricted-globals */
 
 // This service worker can be customized!

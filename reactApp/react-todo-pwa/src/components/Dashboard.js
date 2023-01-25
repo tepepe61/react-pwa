@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
 
 function Dashboard() {
   const classes = useStyles();
-  const currentUser = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const [inputName, setInputName] = useState("");
   const [todos, setTodos] = useState([]);
 
@@ -39,16 +39,16 @@ function Dashboard() {
 
   const fetch = async () => {
     // 2. currentUserがログインして値があったらApiモジュールのinitGetが発火
-    if (dig(currentUser, "currentUser", "uid")) {
+    if (dig(currentUser, "uid")) {
       // 3. uidをもとにfirestoreに問い合わせをして、data変数に代入してデータ更新
-      const data = await Api.initGet(currentUser.currentUser.uid);
+      const data = await Api.initGet(currentUser.uid);
       await setTodos(data);
     }
   };
 
   const formRender = () => {
     let dom;
-    if (dig(currentUser, "currentUser", "uid")) {
+    if (dig(currentUser, "uid")) {
       dom = (
         <form className={classes.form}>
           <TextField
@@ -70,14 +70,18 @@ function Dashboard() {
         </form>
       );
     } else {
-      dom = <button onClick={signInWithGoogle}>ログイン</button>;
+      dom = (
+        <button type="button" onClick={signInWithGoogle}>
+          ログイン
+        </button>
+      );
     }
 
     return dom;
   };
 
   const poost = async () => {
-    await Api.addTodo(inputName, currentUser.currentUser.uid);
+    await Api.addTodo(inputName, currentUser.uid);
     await setInputName("");
     fetch();
   };
