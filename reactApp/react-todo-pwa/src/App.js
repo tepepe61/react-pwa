@@ -1,3 +1,4 @@
+import React from "react";
 import logo from "./logo.svg";
 import { AuthProvider } from "./provider/AuthProvider";
 import "./App.css";
